@@ -22,7 +22,7 @@ void swap(int* x, int* y);
 
 int main(int argc, char *argv[]) {
     printf("Hello, World!\n");
-    printf("Ops test!\n");
+    printf("Ops test_2!\n");
     char numbers[100];
 
     int index = 0;
