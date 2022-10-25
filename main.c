@@ -94,7 +94,7 @@ void check(char array[]){
         some1 = 0;
         while (book.name[i][s] != '\n') {
             //saveString[some1] = book.name[i][s];
-            saveString[some1] = tolower(book.name[i][s]);
+            saveString[some1] = (char)tolower(book.name[i][s]);
             some1++;
             s++;
         }
@@ -108,11 +108,20 @@ void check(char array[]){
 
         if (strstr(saveString, array) != NULL) {
 
-
-
             for (int j = 0; finalResult[j] != 0; ++j) {
                 if(finalResult[j] == i+1){
                     goto jump;
+                }
+            }
+
+            if (isalpha(array[0])) {
+                char *e;
+                int q;
+                e = strstr(saveString, array); //pointer to the first character found 's' in the string saux
+                q = (int) (e - saveString); //saux is already pointing to the first string character 't'.
+                for (int j = q; j < q + size; ++j) {
+                    book.name[i][j] = (char)toupper(book.name[i][j]);
+                    printf("%c", toupper(book.name[i][j]));
                 }
             }
 
