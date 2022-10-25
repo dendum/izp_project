@@ -12,17 +12,16 @@ struct PhoneBook {
 char cheats[10][10] = { "", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
 
 int SIZE = 0, some = 0, some1 = 0;
-void example(char arr[], int num, char result[], int size);
 int finalResult[100] = {0}, size = 0;
 char saveString[100];
 
+void example(char arr[], int num, char result[], int size);
 void check(char array[]);
 void bubbleSort(int arr[], int size);
 void swap(int* x, int* y);
 
 int main(int argc, char *argv[]) {
     printf("Hello, World!\n");
-    printf("Ops test_2!\n");
     char numbers[100];
 
     int index = 0;
@@ -31,8 +30,9 @@ int main(int argc, char *argv[]) {
         index++;
     }
 
-    if(argc == 4){
-        printf("Ops\n");
+    if(argc == 1) {
+        printf("No contacts found.\n");
+        return 0;
     }
 
     while(*argv[1] != '\0') {
@@ -55,7 +55,6 @@ int main(int argc, char *argv[]) {
     bubbleSort(finalResult, finalSize);
 
     if(finalSize == 0){
-//        jump_1: ToDo: Jump here if no input numbers(error)
         printf("No contacts found.\n");
     } else {
         printf("Your contacts:\n");
