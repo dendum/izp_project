@@ -31,7 +31,16 @@ int main(int argc, char *argv[]) {
     }
 
     if(argc == 1) {
-        printf("No contacts found.\n");
+        printf("Your contacts:\n");
+        for (int i = 0; i < SIZE; ++i) {
+            printf("%d ", i+1);
+            int q = 0;
+            while (book.name[i][q] != '\n'){
+                printf("%c", book.name[i][q]);
+                q++;
+            }
+            printf(", %s", book.number[i]);
+        }
         return 0;
     }
 
@@ -66,7 +75,7 @@ int main(int argc, char *argv[]) {
                 printf("%c", book.name[finalResult[i]-1][q]);
                 q++;
             }
-            printf(": %s", book.number[finalResult[i]-1]);
+            printf(", %s", book.number[finalResult[i]-1]);
 
         }
     }
@@ -121,7 +130,6 @@ void check(char array[]){
                 q = (int) (e - saveString); //saux is already pointing to the first string character 't'.
                 for (int j = q; j < q + size; ++j) {
                     book.name[i][j] = (char)toupper(book.name[i][j]);
-                    printf("%c", toupper(book.name[i][j]));
                 }
             }
 
