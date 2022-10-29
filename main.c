@@ -21,7 +21,6 @@ void bubbleSort(int arr[], int size);
 void swap(int* x, int* y);
 
 int main(int argc, char *argv[]) {
-    char numbers[100];
 
     int index = 0;
     while(fgets((index%2 == 0)?(book.name[(index)/2]):(book.number[(index-1)/2]),120, stdin)) {
@@ -41,8 +40,12 @@ int main(int argc, char *argv[]) {
             printf(", %s", book.number[i]);
         }
         return 0;
+    } else if (argc > 2){
+        fprintf(stderr, "Invalid input\n");
+        return 0;
     }
 
+    char numbers[100];
     while(*argv[1] != '\0') {
         numbers[size] = *argv[1];
         size++;
@@ -101,8 +104,6 @@ void check(char array[]){
         int s = 0;
         some1 = 0;
         while (book.name[i][s] != '\n') {
-            //saveString[some1] = book.name[i][s];
-            //book.name[i][s] = (char) tolower(book.name);
             saveString[some1] = (char)tolower(book.name[i][s]);
             some1++;
             s++;
@@ -116,32 +117,33 @@ void check(char array[]){
         }
 
         if (strstr(saveString, array) != NULL) {
-
             for (int j = 0; finalResult[j] != 0; ++j) {
-                if(finalResult[j] == i+1){
+                if (finalResult[j] == i + 1) {
                     goto jump;
                 }
             }
 
+            s = 0;
+            while (book.name[i][s] != '\n') {
+                book.name[i][s] = (char) tolower(book.name[i][s]);
+                s++;
+            }
+
             if (isalpha(array[0])) {
-                for (int j = 0; book.name[i][j] != '\n'; ++j) {
-                    book.name[i][j] = saveString[j];
-                }
                 char *e;
                 int q;
                 e = strstr(saveString, array);
                 q = (int) (e - saveString);
                 for (int j = q; j < q + size; ++j) {
-                    book.name[i][j] = (char)toupper(book.name[i][j]);
+                    book.name[i][j] = (char) toupper(book.name[i][j]);
                 }
             }
 
-            finalResult[some] = i+1;
+            finalResult[some] = i + 1;
             some++;
 
             jump:;
         }
-        //printf("%s", saveString);
         memset(saveString, 0, 100);
     }
 }
