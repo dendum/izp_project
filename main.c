@@ -9,7 +9,7 @@ struct PhoneBook {
     char number[200][101];
 } book;
 
-char cheats[10][10] = { "", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+char cheats[10][10] = { "", " ", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
 
 int SIZE = 0, some = 0, some1 = 0;
 int finalResult[100] = {0}, size = 0;
@@ -21,7 +21,6 @@ void bubbleSort(int arr[], int size);
 void swap(int* x, int* y);
 
 int main(int argc, char *argv[]) {
-    printf("Hello, World!\n");
     char numbers[100];
 
     int index = 0;
@@ -103,6 +102,7 @@ void check(char array[]){
         some1 = 0;
         while (book.name[i][s] != '\n') {
             //saveString[some1] = book.name[i][s];
+            //book.name[i][s] = (char) tolower(book.name);
             saveString[some1] = (char)tolower(book.name[i][s]);
             some1++;
             s++;
@@ -124,10 +124,13 @@ void check(char array[]){
             }
 
             if (isalpha(array[0])) {
+                for (int j = 0; book.name[i][j] != '\n'; ++j) {
+                    book.name[i][j] = saveString[j];
+                }
                 char *e;
                 int q;
-                e = strstr(saveString, array); //pointer to the first character found 's' in the string saux
-                q = (int) (e - saveString); //saux is already pointing to the first string character 't'.
+                e = strstr(saveString, array);
+                q = (int) (e - saveString);
                 for (int j = q; j < q + size; ++j) {
                     book.name[i][j] = (char)toupper(book.name[i][j]);
                 }
@@ -138,12 +141,8 @@ void check(char array[]){
 
             jump:;
         }
-
-        while (some1 != -1){
-            saveString[some1] = 0;
-            some1--;
-        }
-
+        //printf("%s", saveString);
+        memset(saveString, 0, 100);
     }
 }
 
@@ -175,21 +174,6 @@ void swap(int* x, int* y){
 //}
 //printf("\nYepp\n");
 
-//    int s = 0;
-//    for (int i = 0; contacts[0][i]; ++i) {
-//        saveString[i] = contacts[0][i];
-//    }
-//
-//    for (int i = 0; saveString[i] != '\0'; ++i) {
-//        s++;
-//    }
-//    printf("%d %s", s, saveString);
-//
-//    for (int i = 0; i < saveString[i] != '\0'; ++i) {
-//        saveString[i] = '\0';
-//    }
-//
-//    printf("%d %s", s, saveString);
 
 
 
