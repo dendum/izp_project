@@ -9,7 +9,7 @@ struct PhoneBook {
     char number[200][101];
 } book;
 
-char cheats[10][10] = { "", " ", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+char cheats[10][10] = { "+", " ", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
 
 int SIZE = 0, some = 0, some1 = 0;
 int finalResult[100] = {0}, size = 0;
