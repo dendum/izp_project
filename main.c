@@ -15,7 +15,7 @@ int SIZE = 0, some = 0, some1 = 0;
 int finalResult[100] = {0}, size = 0;
 char saveString[100];
 
-void example(char arr[], int num, char result[], int size);
+void example(char arr[], int num, char result[], int numSize);
 void check(char array[]);
 void bubbleSort(int arr[], int size);
 void swap(int* x, int* y);
@@ -42,14 +42,14 @@ int main(int argc, char *argv[]) {
         return 0;
     } else if (argc > 2){
         fprintf(stderr, "Invalid input\n");
-        return 0;
+        return 1;
     }
 
     char numbers[100];
     while(*argv[1] != '\0') {
         if(!isdigit(*argv[1])){
             fprintf(stderr, "Invalid input\n");
-            return 0;
+            return 1;
         }
         numbers[size] = *argv[1];
         size++;
@@ -58,7 +58,7 @@ int main(int argc, char *argv[]) {
     numbers[size] = '\0';
 
     char result[size+1];
-    result[size] = '\0';
+    memset(result, 0, size+1);
 
     check(numbers);
     example(numbers, 0, result, size);
@@ -89,7 +89,7 @@ int main(int argc, char *argv[]) {
     return 0;
 }
 
-void example(char arr[], int num, char result[], int size){
+void example(char arr[], int num, char result[], int numSize){
 
     if (num == size) {
         check(result);
@@ -98,7 +98,7 @@ void example(char arr[], int num, char result[], int size){
 
     for (int i = 0; i < (int)strlen(cheats[arr[num] - '0']); i++) {
         result[num] = cheats[arr[num] - '0'][i];
-        example(arr, num+1, result, size);
+        example(arr, num+1, result, numSize);
     }
 
 }
@@ -152,9 +152,9 @@ void check(char array[]){
     }
 }
 
-void bubbleSort(int arr[], int size){
-    for (int i = 0; i < size-1; ++i) {
-        for (int j = 0; j < size - i - 1; ++j) {
+void bubbleSort(int *arr, int finalSize){
+    for (int i = 0; i < finalSize-1; ++i) {
+        for (int j = 0; j < finalSize - i - 1; ++j) {
             if(arr[j] > arr[j+1]){
                 swap(&arr[j], &arr[j+1]);
             }
