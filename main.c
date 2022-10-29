@@ -47,6 +47,10 @@ int main(int argc, char *argv[]) {
 
     char numbers[100];
     while(*argv[1] != '\0') {
+        if(!isdigit(*argv[1])){
+            fprintf(stderr, "Invalid input\n");
+            return 0;
+        }
         numbers[size] = *argv[1];
         size++;
         argv[1]++;
