@@ -9,9 +9,10 @@
  */
 
 struct PhoneBook {
-    char name[200][101];
-    char number[200][101];
-} book;
+    char name[101];
+    char number[101];
+};
+struct PhoneBook book[101];
 
 char cheats[10][10] = { "+", " ", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
 
@@ -26,14 +27,14 @@ void swap(int* x, int* y);
 int main(int argc, char *argv[]) {
 
     int index = 0;
-    while(fgets((index%2 == 0)?(book.name[(index)/2]):(book.number[(index-1)/2]),120, stdin)) {
-        if (index % 2 == 0 && book.name[(index)/2][0] != '\n'){SIZE++;}
+    while(fgets((index%2 == 0)?(book[(index)/2].name):(book[(index-1)/2].number),120, stdin)) {
+        if (index % 2 == 0 && book[(index)/2].name[0] != '\n'){SIZE++;}
         index++;
     }
     for (int i = 0; i < SIZE; ++i) {
         int s = 0;
-        while (book.name[i][s] != '\n') {
-            book.name[i][s] = (char)tolower(book.name[i][s]);
+        while (book[i].name[s] != '\n') {
+            book[i].name[s] = (char)tolower(book[i].name[s]);
             s++;
         }
     }
@@ -43,11 +44,11 @@ int main(int argc, char *argv[]) {
         for (int i = 0; i < SIZE; ++i) {
             printf("%d ", i+1);
             int q = 0;
-            while (book.name[i][q] != '\n'){
-                printf("%c", book.name[i][q]);
+            while (book[i].name[q] != '\n'){
+                printf("%c", book[i].name[q]);
                 q++;
             }
-            printf(", %s", book.number[i]);
+            printf(", %s", book[i].number);
         }
         return 0;
     } else if (argc > 2){
@@ -87,11 +88,11 @@ int main(int argc, char *argv[]) {
 
             printf("%d ", i+1);
             int q = 0;
-            while (book.name[finalResult[i]-1][q] != '\n'){
-                printf("%c", book.name[finalResult[i]-1][q]);
+            while (book[finalResult[i]-1].name[q] != '\n'){
+                printf("%c", book[finalResult[i]-1].name[q]);
                 q++;
             }
-            printf(", %s", book.number[finalResult[i]-1]);
+            printf(", %s", book[finalResult[i]-1].number);
 
         }
     }
@@ -115,7 +116,7 @@ void example(char arr[], int num, char result[], int numSize){
 
 void check(char array[]){
     for (int i = 0; i < SIZE; ++i) {
-        if (strstr(book.name[i], array) != NULL || strstr(book.number[i], array) != NULL) {
+        if (strstr(book[i].name, array) != NULL || strstr(book[i].number, array) != NULL) {
             for (int j = 0; finalResult[j] != 0; ++j) {
                 if (finalResult[j] == i + 1) {
                     goto jump;
@@ -125,10 +126,10 @@ void check(char array[]){
             if (isalpha(array[0])) {
                 char *e;
                 int q;
-                e = strstr(book.name[i], array);
-                q = (int) (e - book.name[i]);
+                e = strstr(book[i].name, array);
+                q = (int)(e - book[i].name);
                 for (int j = q; j < q + size; ++j) {
-                    book.name[i][j] = (char)toupper(book.name[i][j]);
+                    book[i].name[j] = (char)toupper(book[i].name[j]);
                 }
             }
 
@@ -155,21 +156,6 @@ void swap(int* x, int* y){
     *x = *y;
     *y = value;
 }
-
-
-//if(*argv[2] != " "){
-//printf("Opps\n");
-//}
-//
-//while(*argv[2] != '\0') {
-//printf("%c", *argv[2]);
-//size++;
-//argv[2]++;
-//}
-//printf("\nYepp\n");
-
-
-
 
 /*
 int main(int argc, char *argv[]) {
