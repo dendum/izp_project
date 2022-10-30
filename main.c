@@ -1,8 +1,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-
 //cat .\contacts.txt | .\test.exe 26
+
+/* t9search.c
+ * Projekt 1 - Prace s textem
+ * Denys Dumych (xdumyc00)
+ */
 
 struct PhoneBook {
     char name[200][101];
@@ -12,7 +16,7 @@ struct PhoneBook {
 char cheats[10][10] = { "+", " ", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
 
 int SIZE = 0, some = 0, some1 = 0;
-int finalResult[100] = {0}, size = 0;
+int finalResult[101] = {0}, size = 0;
 char saveString[100];
 
 void example(char arr[], int num, char result[], int numSize);
