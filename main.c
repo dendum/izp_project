@@ -15,9 +15,8 @@ struct PhoneBook {
 
 char cheats[10][10] = { "+", " ", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
 
-int SIZE = 0, some = 0, some1 = 0;
+int SIZE = 0, some = 0;
 int finalResult[101] = {0}, size = 0;
-char saveString[100];
 
 void example(char arr[], int num, char result[], int numSize);
 void check(char array[]);
@@ -30,6 +29,13 @@ int main(int argc, char *argv[]) {
     while(fgets((index%2 == 0)?(book.name[(index)/2]):(book.number[(index-1)/2]),120, stdin)) {
         if (index % 2 == 0 && book.name[(index)/2][0] != '\n'){SIZE++;}
         index++;
+    }
+    for (int i = 0; i < SIZE; ++i) {
+        int s = 0;
+        while (book.name[i][s] != '\n') {
+            book.name[i][s] = (char)tolower(book.name[i][s]);
+            s++;
+        }
     }
 
     if(argc == 1) {
@@ -109,41 +115,20 @@ void example(char arr[], int num, char result[], int numSize){
 
 void check(char array[]){
     for (int i = 0; i < SIZE; ++i) {
-        int s = 0;
-        some1 = 0;
-        while (book.name[i][s] != '\n') {
-            saveString[some1] = (char)tolower(book.name[i][s]);
-            some1++;
-            s++;
-        }
-
-        s = 0;
-        while (book.number[i][s] != '\0'){
-            saveString[some1] = book.number[i][s];
-            some1++;
-            s++;
-        }
-
-        if (strstr(saveString, array) != NULL) {
+        if (strstr(book.name[i], array) != NULL || strstr(book.number[i], array) != NULL) {
             for (int j = 0; finalResult[j] != 0; ++j) {
                 if (finalResult[j] == i + 1) {
                     goto jump;
                 }
             }
 
-            s = 0;
-            while (book.name[i][s] != '\n') {
-                book.name[i][s] = (char) tolower(book.name[i][s]);
-                s++;
-            }
-
             if (isalpha(array[0])) {
                 char *e;
                 int q;
-                e = strstr(saveString, array);
-                q = (int) (e - saveString);
+                e = strstr(book.name[i], array);
+                q = (int) (e - book.name[i]);
                 for (int j = q; j < q + size; ++j) {
-                    book.name[i][j] = (char) toupper(book.name[i][j]);
+                    book.name[i][j] = (char)toupper(book.name[i][j]);
                 }
             }
 
@@ -152,7 +137,6 @@ void check(char array[]){
 
             jump:;
         }
-        memset(saveString, 0, 100);
     }
 }
 
