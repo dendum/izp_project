@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-//cat .\contacts.txt | .\test.exe 26
 
-/* t9search.c
+/*
+ * t9search.c
  * Projekt 1 - Prace s textem
  * Denys Dumych (xdumyc00)
  */
@@ -12,37 +12,29 @@ struct PhoneBook {
     char name[101];
     char number[101];
 };
-struct PhoneBook book[101];
+struct PhoneBook book[100];
 
-char cheats[10][10] = { "+", " ", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+char cheats[10][5] = { "+", " ", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
 
-int SIZE = 0, some = 0;
-int finalResult[101] = {0}, size = 0;
+int SIZE = 0;
+int finalIndex = 0;
 
-void example(char arr[], int num, char result[], int numSize);
-void check(char array[]);
-void bubbleSort(int arr[], int size);
+void example(char arr[], char result[], int finalResult[], int num);
+void check(char array[], int finalResult[]);
+void bubbleSort(int arr[], int finSize);
 void swap(int* x, int* y);
 
 int main(int argc, char *argv[]) {
-
     int index = 0;
     while(fgets((index%2 == 0)?(book[(index)/2].name):(book[(index-1)/2].number),120, stdin)) {
         if (index % 2 == 0 && book[(index)/2].name[0] != '\n'){SIZE++;}
         index++;
     }
-    for (int i = 0; i < SIZE; ++i) {
-        int s = 0;
-        while (book[i].name[s] != '\n') {
-            book[i].name[s] = (char)tolower(book[i].name[s]);
-            s++;
-        }
-    }
 
     if(argc == 1) {
         printf("Your contacts:\n");
         for (int i = 0; i < SIZE; ++i) {
-            printf("%d ", i+1);
+            printf("%d) ", i+1);
             int q = 0;
             while (book[i].name[q] != '\n'){
                 printf("%c", book[i].name[q]);
@@ -56,7 +48,16 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    char numbers[100];
+    for (int i = 0; i < SIZE; ++i) {
+        int s = 0;
+        while (book[i].name[s] != '\n') {
+            book[i].name[s] = (char)tolower(book[i].name[s]);
+            s++;
+        }
+    }
+
+    int size = 0;
+    char numbers[(int)strlen(argv[1])+1];
     while(*argv[1] != '\0') {
         if(!isdigit(*argv[1])){
             fprintf(stderr, "Invalid input\n");
@@ -69,24 +70,21 @@ int main(int argc, char *argv[]) {
     numbers[size] = '\0';
 
     char result[size+1];
-    memset(result, 0, size+1);
+    memset(result, 0, sizeof result);
+    int finalResult[SIZE];
+    memset(finalResult, 0, sizeof finalResult);
 
-    check(numbers);
-    example(numbers, 0, result, size);
+    check(numbers, finalResult);
+    example(numbers, result, finalResult, 0);
+    bubbleSort(finalResult, finalIndex);
 
-    int finalSize = 0;
-    for (int i = 0; finalResult[i] != 0; ++i) {
-        finalSize++;
-    }
-    bubbleSort(finalResult, finalSize);
-
-    if(finalSize == 0){
+    if(finalIndex == 0){
         printf("No contacts found.\n");
     } else {
         printf("Your contacts:\n");
-        for (int i = 0; i < finalSize; ++i) {
+        for (int i = 0; i < finalIndex; ++i) {
 
-            printf("%d ", i+1);
+            printf("%d) ", i+1);
             int q = 0;
             while (book[finalResult[i]-1].name[q] != '\n'){
                 printf("%c", book[finalResult[i]-1].name[q]);
@@ -96,25 +94,23 @@ int main(int argc, char *argv[]) {
 
         }
     }
-
     return 0;
 }
 
-void example(char arr[], int num, char result[], int numSize){
-
-    if (num == size) {
-        check(result);
+void example(char arr[], char result[], int finalResult[], int num){
+    if (num == strlen(arr)) {
+        check(result, finalResult);
         return;
     }
 
     for (int i = 0; i < (int)strlen(cheats[arr[num] - '0']); i++) {
         result[num] = cheats[arr[num] - '0'][i];
-        example(arr, num+1, result, numSize);
+        example(arr, result, finalResult, num+1);
     }
 
 }
 
-void check(char array[]){
+void check(char array[], int finalResult[]){
     for (int i = 0; i < SIZE; ++i) {
         if (strstr(book[i].name, array) != NULL || strstr(book[i].number, array) != NULL) {
             for (int j = 0; finalResult[j] != 0; ++j) {
@@ -127,23 +123,23 @@ void check(char array[]){
                 char *e;
                 int q;
                 e = strstr(book[i].name, array);
-                q = (int)(e - book[i].name);
-                for (int j = q; j < q + size; ++j) {
+                q = (int) (e - book[i].name);
+                for (int j = q; j < q + strlen(array); ++j) {
                     book[i].name[j] = (char)toupper(book[i].name[j]);
                 }
             }
 
-            finalResult[some] = i + 1;
-            some++;
+            finalResult[finalIndex] = i + 1;
+            finalIndex++;
 
             jump:;
         }
     }
 }
 
-void bubbleSort(int *arr, int finalSize){
-    for (int i = 0; i < finalSize-1; ++i) {
-        for (int j = 0; j < finalSize - i - 1; ++j) {
+void bubbleSort(int arr[], int finSize){
+    for (int i = 0; i < finSize-1; ++i) {
+        for (int j = 0; j < finSize - i - 1; ++j) {
             if(arr[j] > arr[j+1]){
                 swap(&arr[j], &arr[j+1]);
             }
@@ -156,38 +152,3 @@ void swap(int* x, int* y){
     *x = *y;
     *y = value;
 }
-
-/*
-int main(int argc, char *argv[]) {
-    printf("Hello, World!\n");
-    int size = 10;
-    int count=0;
-    char numbers_from_terminal[size];
-    while(*argv[1] != '\0') {
-        numbers_from_terminal[count] = *argv[1];
-        count++;
-        argv[1]++;
-    }
-    numbers_from_terminal[count] = '\0';
-    printf("%s\n", numbers_from_terminal);
-
-    int num = 2147483647;
-    char name[10];
-    itoa(num, name, 10);
-    printf("%s", name);
-
-
-//    for (int i = 0; i < size; ++i) {
-//        if (!isdigit(numbers_from_terminal[i])){
-//            numbers_from_terminal[i] = '\0';
-//        }
-//    }
-
-    //printf("%s\n", numbers_from_terminal);
-
-    return 0;
-}
-*/
-//int a;
-//a = atoi(argv[1]);
-//printf("%d", a);
