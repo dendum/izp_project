@@ -122,7 +122,7 @@ void example(char numbers[], char storage[], int foundContacts[], int num){
 
     // when a possible string is formed, the function check() is called
     // after that, the storage[] will be overwritten with another option, and the check() will be called again
-    if (num == strlen(numbers)) {
+    if (num == (int)strlen(numbers)) {
         check(storage, foundContacts);
         return;
     }
@@ -156,7 +156,7 @@ void check(char storage[], int foundContacts[]){
                 int q;
                 e = strstr(book[i].name, storage); // pointer to the first entry of storage[] in book[i].name
                 q = (int)(e - book[i].name); // index of the first entry of storage[] in book[i].name
-                for (int j = q; j < q + strlen(storage); ++j) {
+                for (int j = q; j < q + (int)strlen(storage); ++j) {
                     book[i].name[j] = (char)toupper(book[i].name[j]);
                 }
             }
