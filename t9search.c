@@ -67,7 +67,7 @@ int main(int argc, char *argv[]) {
     }
     numbers[size] = '\0';
 
-    // if the input data is valid, the program changes the letter register of the contact names
+    // if the input data is valid, the program changes the letter register of the contact names to start working with them
     for (int i = 0; i < numOfContacts; ++i) {
         int s = 0;
         while (book[i].name[s] != '\n') {
@@ -174,7 +174,7 @@ void bubbleSort(int foundContacts[], int foundSize){
     // the function sorts the found contacts according to how they were recorded in the input file
     // the function uses bubble sort algorithm
     // foundContacts[] - array of indexes of found contacts
-    // foundSize - number of found contacts
+    // foundSize - amount of found contacts
     for (int i = 0; i < foundSize-1; ++i) {
         for (int j = 0; j < foundSize - i - 1; ++j) {
             if(foundContacts[j] > foundContacts[j+1]){
